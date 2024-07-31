@@ -39,8 +39,8 @@ Notice how it skipped over some words to create these pairs.
 
 In essence, skipgrams are like teaching a computer to read between the lines, helping it understand language in a more human-like way by considering the broader context of words in a sentence.
 """
-import tensorflow as tf
-from tensorflow.keras import layers, models
+# import tensorflow as tf
+# from tensorflow.keras import layers, models
 import re
 import numpy as np
 from collections import Counter
@@ -58,12 +58,33 @@ idx_to_word = {i: word for i, word in enumerate(vocab)}
 # print(idx_to_word)
 
 # step 2: generate skip-gram pairs
-def generate_training_data(words, window_size):
-    for i, word in enumerate(words):
-        for j in range(max(0, i - window_size), min(len(words), i + window_size + 1)):
-            if i != j:
-                yield (word_to_idx[word], word_to_idx[words[j]])
+def generate_skipgrams(words, window_size):
+    skipgrams = []
+    for i, target_word in enumerate(words):
+        # define the range for context words
+        start = max(0, i - window_size)
+        end = min(len(words), i + window_size + 1)
 
+        # generate skipgram pairs
+        for j in range(start, end):
+            if i != j:
+                context_word = words[j]
+                skipgrams.append((target_word, context_word))
+    
+    return skipgrams
+
+# window size
 window_size = 2
-skip_grams = list(generate_training_data(words, window_size))
-print(skip_grams)
+
+# Generate skipgrams
+skipgrams = generate_skipgrams(words, window_size)
+
+# Print some random skipgrams
+print("Some skipgram examples:")
+for _ in range(5):
+    print(random.choice(skipgrams))
+
+# Step 4: Analyze a specific word
+target_word = "fox"
+context_words = [pair[1] for pair in skipgrams if pair[0] == target_word]
+print(f"\nContext words for '{target_word}':", context_words)
