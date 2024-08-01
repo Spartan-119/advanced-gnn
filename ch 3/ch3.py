@@ -89,7 +89,7 @@ nx.draw_networkx(G,
                  font_color = 'white'
                  )
 
-# plt.show()
+plt.savefig('random_graph.png')
 
 # the method to implement random walks
 def random_walk(start, length):
@@ -145,7 +145,7 @@ nx.draw_networkx(G,
                  font_size = 14,
                  font_color = 'white'
                  )
-plt.show()
+plt.savefig('DeepWalk_Graph.png')
 
 # generating dataset -> the random walks
 # to be exhaustive, will use 80 random walks of length 10 for every node in the graph.
@@ -178,3 +178,23 @@ for similarity in model.wv.most_similar(positive=['0']):
 # another important applicaton is calculating the similarity scores between 
 # two nodes
 print(f"Similarity between node 0 and 4: {model.wv.similarity('0', '4')}")
+
+# plot the embeddings using t-SNE
+from sklearn.manifold import TSNE
+
+# creating two arrays
+# one to store the embeddings
+# the other one to store the labels
+nodes_wv = np.array([model.wv.get_vector(str(i)) for i in range(len(model.wv))])
+labels = np.array(labels)
+
+# train the t-SNE model with two dimensions
+tsne = TSNE(n_components=2,
+            learning_rate='auto',
+            init='pca',
+            random_state=0).fit_transform(nodes_wv)
+
+# plot the 2D vectors produced by the t-SNE model with the corresponding labels
+plt.figure(figsize=(6, 6), dpi = 300)
+plt.scatter(tsne[:, 0], tsne[:, 1], s = 100, c = labels, cmap = 'coolwarm')
+plt.savefig('2D Vectors from t-SNE with labels.png')
