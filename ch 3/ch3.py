@@ -89,7 +89,7 @@ nx.draw_networkx(G,
                  font_color = 'white'
                  )
 
-plt.savefig('random_graph.png')
+plt.savefig('ch 3/random_graph.png')
 
 # the method to implement random walks
 def random_walk(start, length):
@@ -145,7 +145,7 @@ nx.draw_networkx(G,
                  font_size = 14,
                  font_color = 'white'
                  )
-plt.savefig('DeepWalk_Graph.png')
+plt.savefig('ch 3/DeepWalk_Graph.png')
 
 # generating dataset -> the random walks
 # to be exhaustive, will use 80 random walks of length 10 for every node in the graph.
@@ -197,4 +197,4 @@ tsne = TSNE(n_components=2,
 # plot the 2D vectors produced by the t-SNE model with the corresponding labels
 plt.figure(figsize=(6, 6), dpi = 300)
 plt.scatter(tsne[:, 0], tsne[:, 1], s = 100, c = labels, cmap = 'coolwarm')
-plt.savefig('2D Vectors from t-SNE with labels.png')
+plt.savefig('ch 3/2D Vectors from t-SNE with labels.png')
